@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
+//test
 public class LoginTests extends BaseTest {
     @Test
     public static void LoginEmptyEmailPasswordTest() {
