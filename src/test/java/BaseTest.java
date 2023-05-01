@@ -4,29 +4,40 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.Assert;
+import org.testng.annotations.*;
 
 import java.time.Duration;
 
 public class BaseTest {
 
     public static WebDriver driver = null;
-    public static String baseURL = "https://bbb.testpro.io";
+    public static String baseURL = "";
 
     @BeforeSuite
     static void setupClass() {
         WebDriverManager.chromedriver().setup();
     }
 
+    @DataProvider(name="getDataLoginData")
+    public static Object[][] getDataLoginData() {
+        return new Object[][] {
+                {"invalid@mail.com", "invalid"},
+                {"demo@class.com", ""},
+                {"", ""}
+        };
+    }
+
     @BeforeMethod
-    public void launchBrowser() {
+    @Parameters({"BaseURL"})
+    public void launchBrowser(String BaseURL) {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        baseURL = BaseURL;
+        openBaseURL();
     }
 
     @AfterMethod
@@ -51,6 +62,8 @@ public class BaseTest {
     public static void clickLogin() throws InterruptedException{
         WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit']"));
         loginButton.click();
+        WebElement avatar = driver.findElement(By.cssSelector("img.avatar"));
+        Assert.assertTrue(avatar.isDisplayed());
         Thread.sleep(2000);
     }
 

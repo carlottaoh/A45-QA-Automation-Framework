@@ -10,11 +10,8 @@ public class Homework18 extends BaseTest {
         String email = "demo@class.com";
         String password = "te$t$tudent";
 
-        openBaseURL();
         enterCredentials(email, password);
         clickLogin();
-        WebElement avatar = driver.findElement(By.cssSelector("img.avatar"));
-        Assert.assertTrue(avatar.isDisplayed());
 
         //play third song on Home
         WebElement thirdSong = driver.findElement(By.cssSelector("ol.top-song-list :nth-child(3) > article > span.cover"));
