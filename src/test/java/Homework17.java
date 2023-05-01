@@ -11,7 +11,6 @@ public class Homework17 extends BaseTest {
         String searchForSong = "Waiting on a train";
         String playlistName = "Carlotta's Playlist";
 
-        openBaseURL();
         enterCredentials(email, password);
         clickLogin();
         Assert.assertEquals(driver.getCurrentUrl(), "https://bbb.testpro.io/#!/home");
