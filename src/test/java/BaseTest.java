@@ -4,14 +4,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class BaseTest {
 
     public static WebDriver driver = null;
+    WebDriverWait wait;
     public static String baseURL = "";
 
     @BeforeSuite
@@ -35,6 +38,7 @@ public class BaseTest {
         options.addArguments("--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         baseURL = BaseURL;
         openBaseURL();
@@ -49,44 +53,47 @@ public class BaseTest {
         driver.get(baseURL);
     }
 
-    public static void enterCredentials(String email, String password) throws InterruptedException{
+    public void enterCredentials(String email, String password) {
         WebElement emailField = driver.findElement(By.cssSelector("input[type='email']"));
+        WebElement emailElement = wait.until(ExpectedConditions.elementToBeClickable(emailField));
         WebElement passwordField = driver.findElement(By.cssSelector("input[type='password']"));
-        emailField.clear();
-        emailField.sendKeys(email);
-        passwordField.clear();
-        passwordField.sendKeys(password);
-        Thread.sleep(2000);
+        WebElement passwordElement = wait.until(ExpectedConditions.elementToBeClickable(passwordField));
+        emailElement.clear();
+        emailElement.sendKeys(email);
+        passwordElement.clear();
+        passwordElement.sendKeys(password);
     }
 
-    public static void clickLogin() throws InterruptedException{
+    public void clickLogin() {
         WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit']"));
-        loginButton.click();
+        WebElement loginElement = wait.until(ExpectedConditions.elementToBeClickable(loginButton));
+        loginElement.click();
         WebElement avatar = driver.findElement(By.cssSelector("img.avatar"));
         Assert.assertTrue(avatar.isDisplayed());
-        Thread.sleep(2000);
     }
 
-    public static void searchSong(String song) throws InterruptedException{
+    public void searchSong(String song) {
         WebElement searchField = driver.findElement(By.cssSelector("input[type='search']"));
-        searchField.sendKeys(song);
-        Thread.sleep(2000);
+        WebElement searchElement = wait.until(ExpectedConditions.elementToBeClickable(searchField));
+        searchElement.sendKeys(song);
     }
 
-    public static void viewAllSongs() throws InterruptedException{
+    public void viewAllSongs() {
         WebElement viewAllButton = driver.findElement(By.cssSelector("button[data-test='view-all-songs-btn']"));
-        viewAllButton.click();
-        Thread.sleep(2000);
+        WebElement viewElement = wait.until(ExpectedConditions.elementToBeClickable(viewAllButton));
+        viewElement.click();
     }
 
-    public static void addSongNewList(String playlistName) throws InterruptedException {
+    public void addSongNewList(String playlistName) {
         WebElement createPlaylist = driver.findElement(By.xpath(".//section[@id='songResultsWrapper']//button[@class='btn-add-to']"));
-        createPlaylist.click();
+        WebElement createElement = wait.until(ExpectedConditions.elementToBeClickable(createPlaylist));
+        createElement.click();
         WebElement playlistNameField = driver.findElement(By.xpath(".//section[@id='songResultsWrapper']//input[@data-test='new-playlist-name']"));
-        playlistNameField.sendKeys(playlistName);
+        WebElement playlistNameElement = wait.until(ExpectedConditions.elementToBeClickable(playlistNameField));
+        playlistNameElement.sendKeys(playlistName);
         WebElement enterButton = driver.findElement(By.xpath(".//section[@id='songResultsWrapper']//button[@type='submit']"));
-        enterButton.click();
-        Thread.sleep(2000);
+        WebElement enterElement = wait.until(ExpectedConditions.elementToBeClickable(enterButton));
+        enterElement.click();
     }
 
 }
