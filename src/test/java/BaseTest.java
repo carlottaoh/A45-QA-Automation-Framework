@@ -1,9 +1,12 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -14,8 +17,9 @@ import java.time.Duration;
 public class BaseTest {
 
     public static WebDriver driver = null;
-    WebDriverWait wait;
+    public static WebDriverWait wait = null;
     public static String baseURL = "";
+    public static Actions actions = null;
 
     @BeforeSuite
     static void setupClass() {
@@ -40,6 +44,7 @@ public class BaseTest {
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        actions = new Actions(driver);
         baseURL = BaseURL;
         openBaseURL();
     }
@@ -94,6 +99,34 @@ public class BaseTest {
         WebElement enterButton = driver.findElement(By.xpath(".//section[@id='songResultsWrapper']//button[@type='submit']"));
         WebElement enterElement = wait.until(ExpectedConditions.elementToBeClickable(enterButton));
         enterElement.click();
+    }
+
+    public void editPlaylistName() {
+
+        WebElement findExisting = driver.findElement(By.xpath(".//a[contains(text(),\"CC's new playlist\")]"));
+        WebElement existingElement = wait.until(ExpectedConditions.elementToBeClickable(findExisting));
+        actions.doubleClick(existingElement).perform();
+        WebElement editExisting = driver.findElement(By.xpath(".//input[@data-testid='inline-playlist-name-input']"));
+        WebElement editExistingElement = wait.until(ExpectedConditions.visibilityOf(editExisting));
+        editExistingElement.sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.BACK_SPACE));
+        editExistingElement.sendKeys("CC's old playlist");
+        editExistingElement.sendKeys(Keys.ENTER);
+        WebElement oldName = driver.findElement(By.xpath(".//a[contains(text(),\"CC's old playlist\")]"));
+        Assert.assertTrue(oldName.isDisplayed());
+
+    }
+
+    public void editPlaylistBack() {
+        WebElement findExisting = driver.findElement(By.xpath(".//a[contains(text(),\"CC's old playlist\")]"));
+        WebElement existingElement = wait.until(ExpectedConditions.elementToBeClickable(findExisting));
+        actions.doubleClick(existingElement).perform();
+        WebElement editExisting = driver.findElement(By.xpath(".//input[@data-testid='inline-playlist-name-input']"));
+        WebElement editExistingElement = wait.until(ExpectedConditions.visibilityOf(editExisting));
+        editExistingElement.sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.BACK_SPACE));
+        editExistingElement.sendKeys("CC's new playlist");
+        editExistingElement.sendKeys(Keys.ENTER);
+        WebElement oldName = driver.findElement(By.xpath(".//a[contains(text(),\"CC's new playlist\")]"));
+        Assert.assertTrue(oldName.isDisplayed());
     }
 
 }
