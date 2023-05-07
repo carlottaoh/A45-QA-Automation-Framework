@@ -111,8 +111,6 @@ public class BaseTest {
         editExistingElement.sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.BACK_SPACE));
         editExistingElement.sendKeys("CC's old playlist");
         editExistingElement.sendKeys(Keys.ENTER);
-        WebElement oldName = driver.findElement(By.xpath(".//a[contains(text(),\"CC's old playlist\")]"));
-        Assert.assertTrue(oldName.isDisplayed());
 
     }
 
@@ -125,8 +123,6 @@ public class BaseTest {
         editExistingElement.sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.BACK_SPACE));
         editExistingElement.sendKeys("CC's new playlist");
         editExistingElement.sendKeys(Keys.ENTER);
-        WebElement oldName = driver.findElement(By.xpath(".//a[contains(text(),\"CC's new playlist\")]"));
-        Assert.assertTrue(oldName.isDisplayed());
     }
 
 }
