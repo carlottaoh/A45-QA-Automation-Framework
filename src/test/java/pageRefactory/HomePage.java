@@ -7,11 +7,11 @@ import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends BasePage {
     @FindBy(css = "img.avatar")
-    WebElement avatarIcon;
-    @FindBy(css = "#sidebar > #playlists :nth-child(6)")
-    WebElement aPlaylist;
+    private WebElement avatarIcon;
+    @FindBy(css = "#sidebar > #playlists :nth-child(3)")
+    private WebElement aPlaylist;
     @FindBy(css = "input[name='name']")
-    WebElement editPlaylistName;
+    private WebElement editPlaylistName;
     public HomePage(WebDriver passedDriver) {super(passedDriver);}
     public HomePage selectPlaylist() {
         doubleClick(aPlaylist);
@@ -25,7 +25,8 @@ public class HomePage extends BasePage {
         return this;
     }
     public String getPlaylistName() {
-        return findElement(aPlaylist).getText();
+        String text = findElement(aPlaylist).getText();
+        return text;
     }
     public boolean avatarDisplayed() {
         return avatarIcon.isDisplayed();

@@ -6,11 +6,11 @@ import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends BasePage {
     @FindBy(css = "input[type='email']")
-    WebElement emailField;
+    private WebElement emailField;
     @FindBy(css = "input[type='password']")
-    WebElement passwordField;
+    private WebElement passwordField;
     @FindBy(css = "button[type='submit']")
-    WebElement submitButton;
+    private WebElement submitButton;
 
     public LoginPage(WebDriver passedDriver) {super(passedDriver);}
     public LoginPage enterCredentials(String email, String password) {
