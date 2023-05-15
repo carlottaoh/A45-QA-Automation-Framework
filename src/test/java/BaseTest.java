@@ -6,10 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
 //import org.openqa.selenium.remote.DesiredCapabilities;
 //import org.openqa.selenium.remote.RemoteWebDriver;
 //import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.*;
@@ -17,7 +19,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 //import java.net.URI;
+import java.net.URL;
 import java.time.Duration;
+import java.util.HashMap;
 
 public class BaseTest {
 
@@ -62,6 +66,8 @@ public class BaseTest {
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
                 return driver = new FirefoxDriver();
+            case "lambda":
+                return lambdaTest();
 //            case "safari":
 //                WebDriverManager.safaridriver().setup();
 //                return driver = new SafariDriver();
@@ -81,7 +87,23 @@ public class BaseTest {
                 return driver = new ChromeDriver(options);
         }
     }
+public static WebDriver lambdaTest() throws MalformedURLException {
+     String username = "carlotta.oh";
+     String accessToken = "723W2iSjz2l4ftwnb7ehvDBa5OCs65PlwGfh2ZUH80KY2lEFBJ";
+     String hubURL = "https://hub.lambdatest.com/wd/hub";
 
+    FirefoxOptions browserOptions = new FirefoxOptions();
+    browserOptions.setPlatformName("Windows 10");
+    browserOptions.setBrowserVersion("112.0");
+    HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+    ltOptions.put("username", username);
+    ltOptions.put("accessKey", accessToken);
+    ltOptions.put("project", "Untitled");
+    ltOptions.put("w3c", true);
+    ltOptions.put("plugin", "java-testNG");
+    browserOptions.setCapability("LT:Options", ltOptions);
+    return new RemoteWebDriver(new URL(hubURL), browserOptions);
+}
     @AfterMethod
     public void quitBrowser() {
         getDriver().quit();
