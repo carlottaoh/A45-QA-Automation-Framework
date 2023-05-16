@@ -15,7 +15,7 @@ public class LoginPage extends BasePage {
 
     public LoginPage(WebDriver passedDriver) {super(passedDriver);}
     public LoginPage enterCredentials(String email, String password) {
-        emailField.sendKeys(Keys.chord(Keys.COMMAND, "a", Keys.BACK_SPACE));
+        emailField.clear();
         emailField.sendKeys(email);
         passwordField.sendKeys(password);
         return this;

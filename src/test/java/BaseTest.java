@@ -10,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.interactions.Actions;
 //import org.openqa.selenium.remote.DesiredCapabilities;
 //import org.openqa.selenium.remote.RemoteWebDriver;
-//import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -22,7 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.HashMap;
-
+//brew services restart jenkins-lts
 public class BaseTest {
 
     public static WebDriver driver = null;
@@ -68,9 +68,9 @@ public class BaseTest {
                 return driver = new FirefoxDriver();
             case "lambda":
                 return lambdaTest();
-//            case "safari":
-//                WebDriverManager.safaridriver().setup();
-//                return driver = new SafariDriver();
+            case "safari":
+                WebDriverManager.safaridriver().setup();
+                return driver = new SafariDriver();
 //            case "grid-firefox":
 //                caps.setCapability("browserName", "firefox");
 //                return driver = new RemoteWebDriver(URI.create(gridURL).toURL(), caps);
